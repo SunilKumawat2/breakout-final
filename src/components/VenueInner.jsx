@@ -168,7 +168,7 @@ const VenueInner = ({ venue,noImage=false,page_type=""}) => {
           </div>
         ))}
         {
-          venue?.is_breakout && (
+          venue?.is_breakout && venue?.googlereviews && venue?.googlereviews.length > 0 && (
             <>
               <div className="pt-80">
                 {venue?.googlereviews && venue?.googlereviews.length > 0 && (
@@ -180,7 +180,7 @@ const VenueInner = ({ venue,noImage=false,page_type=""}) => {
         }
          {
           venue?.is_breakout && (
-            <div className="pt-80">
+            <div className="p-0">
                {/* <PartyGetInTouch
                 className="py-0"
                 img={bdayblogIllus}

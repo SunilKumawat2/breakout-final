@@ -8,14 +8,10 @@ import HmTextSec from "@/components/home/HmTextSec";
 import arrowRight from "@/images/arrow-right-yellow.svg";
 import HomeContact from "@/components/home/HomeContact";
 import { motion } from "framer-motion";
-import { Tilt } from "react-tilt";
 import whArrow from "@/images/wh-arrow.svg";
 import TrustedSection from "@/components/TrustedSection";
 import IllusHome from "@/images/illus-home.svg";
 import FaqSection from "@/components/FaqSection";
-import starIcon from "@/images/star-icon.svg";
-import PartyIcon from "@/images/party-icon.svg";
-import handshake from "@/images/handshake.svg";
 import VisitLocations from "@/components/VisitLocations";
 import { useGlobalContext } from "@/context/GlobalContext";
 import homePageIllus from "@/images/home-page-illus.svg";
@@ -143,7 +139,6 @@ export default function Home() {
             {data && data?.bannersection && (
               <header className="hm-header">
                 <div className="container">
-                  jkdfhjksdh
                   <motion.div
                     className="row"
                     initial={{ opacity: 0, y: 30 }}

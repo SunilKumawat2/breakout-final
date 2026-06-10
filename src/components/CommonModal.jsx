@@ -33,16 +33,16 @@ export const CommonModal = ({
   handleClose,
   children,
   className = "",
-  onReleaseSeats,
+  // onReleaseSeats,
 }) => {
   const {releaseSeats} = useGlobalContext();
   const handleModalClose = async () => {
     try {
 
       // 🔥 release held seats first
-      if (onReleaseSeats) {
-        await releaseSeats();
-      }
+      // if (onReleaseSeats) {
+      //   await releaseSeats();
+      // }
 
     } catch (error) {
       console.log("Release seats error", error);
@@ -52,7 +52,7 @@ export const CommonModal = ({
       handleClose();
 
       // 🔥 hard refresh page
-      window.location.reload();
+      // window.location.reload();
     }
   };
   // releaseSeats

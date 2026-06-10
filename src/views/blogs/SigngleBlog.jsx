@@ -45,7 +45,7 @@ const SigngleBlog = ({ blogData }) => {
   const relatedToFirst = blogData?.related_to?.[0]?.trim()?.toLowerCase();
   console.log("blogData_blogData", blogData)
   let pageType = "";
-
+console.log("pageType",pageType)
   if (relatedToFirst == "things to do") {
     pageType = "escape room";
   } else if (
@@ -59,7 +59,15 @@ const SigngleBlog = ({ blogData }) => {
       "farewells",
       "bachelor(ette)",
       "couples",
-      "birthday"
+      "birthday",
+      "Birthdays",
+      "Bachelor(ette)",
+      "Couples",
+      "Corporate",
+      "Escape Rooms",
+      "Farewells",
+      "Parties",
+      "Things to do"
     ].includes(relatedToFirst)
   ) {
     pageType = "birthday";
@@ -98,7 +106,9 @@ const SigngleBlog = ({ blogData }) => {
   const handleShare = (platform) => {
     const currentUrl = window.location.href;
     const title = blogData?.heading || "Check out this blog post";
-    const text = blogData?.description || "Interesting read!";
+    const text =
+      blogData?.description || "Interesting read! Have a look.";
+
     let shareUrl = "";
 
     switch (platform) {
@@ -107,19 +117,34 @@ const SigngleBlog = ({ blogData }) => {
           alert("Link copied to clipboard!");
         });
         return;
+
       case "whatsapp":
         shareUrl = `https://wa.me/?text=${encodeURIComponent(
           `${title} - ${currentUrl}`
         )}`;
         break;
+
       case "instagram":
         // Instagram sharing is limited; fallback to copying
         shareUrl = `https://www.instagram.com/?url=${encodeURIComponent(currentUrl)}`;
         break;
-      case "twitter":
+
+      case "twitter": // X
         shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
           title
         )}&url=${encodeURIComponent(currentUrl)}`;
+        break;
+
+      case "linkedin":
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+          currentUrl
+        )}`;
+        break;
+
+      case "gmail":
+        shareUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(
+          title
+        )}&body=${encodeURIComponent(`${text}\n\n${currentUrl}`)}`;
         break;
       default:
         return;
@@ -388,8 +413,29 @@ const SigngleBlog = ({ blogData }) => {
           </div>
         </div>
       </section>
-      <PartyExpertCon className="pt-80" data="party_bachelor" />
 
+      <PartyExpertCon
+        className="pt-80"
+        data={
+          pageType == "Corporate"
+            ? "corporate"
+            : [
+              "parties",
+              "birthdays",
+              "farewells",
+              "bachelor(ette)",
+              "couples",
+              "birthday",
+              "Birthdays",
+              "Bachelor(ette)",
+              "Couples",
+              "Farewells",
+              "Parties",
+            ].includes(relatedToFirst)
+              ? "birthday"
+              : null
+        }
+      />
 
       <div className="blog-slider-sec">
         <section className="pt-80 bday-sec">
@@ -543,10 +589,10 @@ const SigngleBlog = ({ blogData }) => {
           privacyLine={true}
         /> */}
 
-        
-          <HomeContact page_name="home" page_type={pageType}
-             noTextBottom={false} noImage={true} />
-       
+
+        <HomeContact page_name="home" page_type={pageType}
+          noTextBottom={false} noImage={true} />
+
         <section className={`blog-slider-sec section-padding pb-0 arrows-diff`}>
           <div className="container">
             <div className="row">

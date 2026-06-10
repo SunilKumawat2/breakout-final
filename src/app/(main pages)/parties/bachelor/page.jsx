@@ -304,7 +304,7 @@ const page = () => {
         <Image src={bdayIllus} alt="illus3" className="illus-image" />
       </div>
       <div className="black-gr-div">
-        <PartyExpertCon className="sec-padding-top" data="party_bachelor" />
+        <PartyExpertCon className="sec-padding-top" data="birthday" />
         {party && party?.slidersection && (
           <ReadyToGoPlans data={party?.slidersection} />
         )}

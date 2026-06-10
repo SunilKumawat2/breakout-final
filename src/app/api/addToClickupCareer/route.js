@@ -56,24 +56,12 @@ export async function POST(req) {
         // =========================
 
         const description = `
-Career Application Details
-
-Name: ${name}
-Phone: ${phone}
-Email: ${email}
-
-Role Applied For: ${role}
-Looking For: ${lookingFor}
-Experience: ${experience}
-
-Interest:
-${interest}
-
-Resume:
-${resumeUrl || "No Resume Uploaded"}
-
-Page:
-${page}
+          Career Application Details
+           Role Applied For: ${role}
+           Looking For: ${lookingFor}
+           Experience: ${experience}
+           Interest:${interest}
+           Resume:${resumeUrl || "No Resume Uploaded"}
 `;
 
         // ========================= CLICKUP TASK PAYLOAD ==================
@@ -95,6 +83,11 @@ ${page}
                     id: FIELD_SOURCE,
                     value: "Career Page",
                 },
+                {
+                    id: "769236d6-fd0b-4529-ac7c-914572ab3655",
+                    value: page
+                }
+
             ],
         };
 

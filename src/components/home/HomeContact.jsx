@@ -136,35 +136,7 @@ const HomeContact = ({
       lookingFor: Yup.object().nullable().required("Please select an option"),
       message: Yup.string().required("Message is required"),
     }),
-    // onSubmit: async (values, { resetForm }) => {
-    //   setLoading(true);
-    //   setSubmitSuccess(false);
-    //   try {
-    //     const sendData = {
-    //       name: values.name,
-    //       phone: values.phone,
-    //       lookingFor: values.lookingFor.value,
-    //       message: values.message,
-    //       page: page,
-    //     };
-    //     await axios.post("/api/contactFormClickup", JSON.stringify(sendData));
-    //     setSubmitSuccess(true);
-    //     toast.success("Thank you! We'll be in touch soon.", {
-    //       position: "bottom-center",
-    //       autoClose: 3000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //     });
-    //     resetForm();
-    //   } catch (error) {
-    //     // you may want to handle errors here
-    //     setSubmitSuccess(false);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // },
+    
     onSubmit: async (values, { resetForm }) => {
       setLoading(true);
       setSubmitSuccess(false);
@@ -181,7 +153,7 @@ const HomeContact = ({
           whatsappNumber: values.phone,
           lookingFor: values.lookingFor.value,
           message: values.message,
-          page: page,
+          page: window.location.href,
 
           // ========================= UTM FIELDS =========================
           utm_source: utmData?.utm_source || "",
@@ -193,19 +165,19 @@ const HomeContact = ({
 
         // ✅ 1. ClickUp API
         {
-          page_type == "escape_room" && (
+          (
             await axios.post("/api/addToClickupEscapeRoom", sendData)
           )
         }
-        if (["parties", "birthdays", "farewells", "bachelor(ette)", "couples", "birthday"]?.includes(page_type)) {
-          await axios.post("/api/addToClickupParties", sendData)
-        }
+        // if (["parties", "birthdays", "farewells", "bachelor(ette)", "couples", "birthday"]?.includes(page_type)) {
+        //   await axios.post("/api/addToClickupParties", sendData)
+        // }
 
-        {
-          page_type == "corporate" && (
-            await axios.post("/api/addToClickupCorporate", sendData)
-          )
-        }
+        // {
+        //   page_type == "corporate" && (
+        //     await axios.post("/api/addToClickupCorporate", sendData)
+        //   )
+        // }
 
 
         // ✅ 2. WATI API
@@ -230,7 +202,12 @@ const HomeContact = ({
 
         //  Parties Wati
         if (
-          ["parties", "birthdays", "farewells", "bachelor(ette)", "couples", "birthday"]?.includes(page_type)
+          ["parties", "birthdays", "farewells", "bachelor(ette)", "couples", "birthday", "Birthdays", "Bachelor(ette)", "Couples",
+            "Corporate",
+            "Escape Rooms",
+            "Farewells",
+            "Parties",
+            "Things to do"]?.includes(page_type)
         ) {
           await axios.post("/api/party_wati", {
             phone: values.phone,
@@ -265,6 +242,27 @@ const HomeContact = ({
               utm_content: utmData?.utm_content || "",
             })
           )
+        }
+
+        if (page_type?.trim()?.toLowerCase() == "resources_page") {
+          try {
+            await axios.post("/api/resources_wati", {
+              phone: values.phone,
+              name: values.name,
+              lookingFor: values.lookingFor.value,
+              message: values.message,
+
+
+              // ========================= UTM =========================
+              utm_source: utmData?.utm_source || "",
+              utm_medium: utmData?.utm_medium || "",
+              utm_campaign: utmData?.utm_campaign || "",
+              utm_term: utmData?.utm_term || "",
+              utm_content: utmData?.utm_content || "",
+            });
+          } catch (watiErr) {
+            console.log("WATI Error:", watiErr);
+          }
         }
 
         // ========================= GTM EVENT =========================

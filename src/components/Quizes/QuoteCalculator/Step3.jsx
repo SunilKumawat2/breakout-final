@@ -18,7 +18,7 @@ const Step3 = ({
   const [loading, setLoading] = useState(false);
   const [packages, setPackages] = useState(null);
   const [packageTrigger, setPackageTrigger] = useState(false);
-  console.log("Step3_Step3", category)
+  console.log("Step3_Step3", content)
   // ✅ FINAL CATEGORY
   const finalCategory =
     content && content !== "null"
@@ -208,10 +208,14 @@ const Step3 = ({
               attendees_count: participants?.toString() || "",
               date: formattedDate || "",
               category: finalCategory || "",
-
+              resourceName:resourceName,
+              resourceType:resourceType,
               consultation: values.consultation
-                ? "Would you like a free consultation with a party expert, with no obligation? - Yes"
-                : "Would you like a free consultation with a party expert, with no obligation? - No",
+              ? "Yes"
+              : "No",
+              // consultation: values.consultation
+              //   ? "Would you like a free consultation with a party expert, with no obligation? - Yes"
+              //   : "Would you like a free consultation with a party expert, with no obligation? - No",
             }
           );
 
@@ -316,6 +320,7 @@ const Step3 = ({
       <QuizResult
         packages={packages}
         category={category}
+        content={content}
         capacity={participants}
       />
     );

@@ -13,12 +13,10 @@ const LogoSec = dynamic(() => import("@/components/LogoSec"));
 const FaqSection = dynamic(() => import("@/components/FaqSection"));
 const OurLocationSec = dynamic(() => import("@/components/OurLocationSec"));
 const PartyGetInTouch = dynamic(() => import("@/components/PartyGetInTouch"));
-
 import MovieIllus from "@/images/moview-illus.svg";
 import IllusHome from "@/images/illus-home.svg";
 import IllusPartyBottom from "@/images/illus-party-bottom.svg";
 import whArrow from "@/images/wh-arrow.svg";
-
 import api from "@/app/helpers/api";
 import Head from "next/head";
 
@@ -27,6 +25,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Home() {
   const [data, setData] = useState(null);
   const [cards, setCards] = useState([]);
+  console.log("cards_cards",cards)
   const [collapse, setCollapse] = useState(null);
   const [animationRefreshKey, setAnimationRefreshKey] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -94,7 +93,6 @@ export default function Home() {
     fetchData();
   }, []);
 
-
   /* ========================= RESTORE DROPDOWN STATE ========================= */
   useEffect(() => {
     const savedCollapse = sessionStorage.getItem("home_dropdown");
@@ -126,15 +124,12 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (loading) return; // ⛔ wait until page content renders
-
+    if (loading) return; 
     const element = locationRef.current;
     if (!element) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
-
         if (entry.isIntersecting) {
           setLocationReady(true);
           observer.disconnect();
@@ -146,11 +141,8 @@ export default function Home() {
     );
 
     observer.observe(element);
-
     return () => observer.disconnect();
-  }, [loading]); // 👈 depend only on loading
-
-
+  }, [loading]); 
 
   /* ========================= ANIMATION VARIANTS ========================= */
   const fadeInUp = {
@@ -185,20 +177,15 @@ export default function Home() {
 
   useEffect(() => {
     const shouldScroll = sessionStorage.getItem("parties_hero_sections");
-
     if (shouldScroll == "true") {
-      // wait for DOM paint
       setTimeout(() => {
         const section = document.getElementById("parties-hero-section");
-
         if (section) {
           section.scrollIntoView({
-            behavior: "auto", // use "smooth" if you want animation
+            behavior: "auto",
             block: "start",
           });
         }
-
-        // remove key so it doesn't auto-scroll again
         sessionStorage.removeItem("parties_hero_sections");
       }, 1000);
     }
@@ -254,14 +241,12 @@ export default function Home() {
                       onClick={() => sessionStorage.setItem("parties_hero_sections", true)}
                       id="parties-hero-section"
                     >
-                      {cards.map((card, index) => (
+                      {cards?.map((card, index) => (
                         <motion.div
                           className="col-lg-4 col-12"
                           key={index}
                         >
                           <div className="hm-card">
-
-                            {/* ✅ Image Click */}
                             <Link
                               href={card?.link}
                               className="hm-card-img"
@@ -287,8 +272,6 @@ export default function Home() {
                             </Link>
 
                             <div className="details">
-
-                              {/* ✅ Title Click (Dropdown Open) */}
                               <h3
                                 className="sec-head h3 des2"
                                 onClick={() => {

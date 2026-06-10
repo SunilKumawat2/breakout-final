@@ -347,12 +347,11 @@ const BrochureDownloadForm = ({ page_name = "", className = "", blog_slug = {}, 
                       data-lenis-prevent
                       className="basic-single"
                       classNamePrefix="select"
-                      placeholder="Select the article"
+                      placeholder="Select the resource"
                       options={blogOptions}
                       value={selectedBlog}
                       onChange={(option) => {
                         setSelectedBlog(option);
-
                         setResourceId(option?.value); // ✅ resource_id
                       }}
 

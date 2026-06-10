@@ -123,7 +123,8 @@ const QuizResult = ({ venues, venues_price }) => {
               key={`${selectedVenueDetails?.id || "default"}`}>
               {selectedVenueDetails ? (
                 <SwiperSlide key={selectedVenueDetails?.id}>
-                  <VenueInner noImage={true} venue={selectedVenueDetails} />
+                  <VenueInner noImage={true} venue={selectedVenueDetails}
+                    page_type="resources_page" />
                 </SwiperSlide>
               ) : null}
             </Swiper>

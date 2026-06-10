@@ -10,61 +10,22 @@ import { useSearchParams } from "next/navigation";
 const QuoteCalculator = ({ category }) => {
   const searchParams = useSearchParams();
   const content = searchParams.get("content");
-  const resourceName = searchParams.get("resourceName");
-  const resourceType = searchParams.get("resourceType");
+  const resourceName = searchParams.get("name");
+  const resourceType = searchParams.get("type");
   const [participants, setParticipants] = useState(0);
   const [selectedDate, setSelectedDate] = useState(null);
-  console.log("searchParams_content", category);
+  console.log("searchParams_content", content);
   const [currentStep, setCurrentStep] = useState(1);
   console.log("sjfgjsdfsdfsfsfjsdgf", currentStep)
   const [isResult, setIsResult] = useState(false);
   const totalSteps = category === "couple" ? 2 : 3;
   const [estimatedQuote, setEstimatedQuote] = useState(0);
 
-  const handleNext = () => {
-    if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const handlePrev = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
+ 
 
   useEffect(() => {
     setCurrentStep(1);
   }, []);
-
-  // const renderStep = (step) => {
-
-  //   switch (step) {
-  //     case 1:
-  //       return (
-  //         <Step1
-  //           category={category}
-  //           goToResult={() => setCurrentStep(2)}
-  //         />
-  //       );
-
-  //     case 2:
-  //       return (
-  //         <Step3
-  //           setEstimatedQuote={setEstimatedQuote}
-  //           category={category}
-  //         />
-  //       );
-
-  //     default:
-  //       return (
-  //         <Step1
-  //           category={category}
-  //           goToResult={() => setCurrentStep(2)}
-  //         />
-  //       );
-  //   }
-  // };
 
   const renderStep = (step) => {
     switch (step) {

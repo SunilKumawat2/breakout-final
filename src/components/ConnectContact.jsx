@@ -167,7 +167,7 @@ console.log("corporate_corporate_12332323423",page_type)
           page: page,
           user_email: values.email,
           phone: values.phone,
-          tag: "LandD", // dynamic tag
+          tag: "landd", // dynamic tag
 
           // ========================= UTM DATA =========================
           utm_source: utmData?.source || "",

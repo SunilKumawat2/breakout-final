@@ -173,14 +173,11 @@ const CareerForm = ({
           name: values.name,
           phone: values.phone,
           email: values.email,
-    
           role: values.role.value,
           lookingFor: values.lookingFor.value,
           experience: values.experience || "",
           interest: values.interest,
-    
-          page,
-    
+          page: window.location.href,
           // IF YOUR careerForm API RETURNS FILE URL
           resumeUrl:
             careerRes?.data?.fileUrl ||

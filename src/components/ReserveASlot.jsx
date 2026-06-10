@@ -1,11 +1,8 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import loc from "@/images/loc.svg";
 import Image from "next/image";
-import DatePicker from "./DatePicker";
-import api from "@/app/helpers/api";
 import SlotPicker from "./SlotPicker";
 import { useGlobalContext } from "@/context/GlobalContext";
 import { toast } from "react-toastify";
@@ -13,6 +10,7 @@ import { CommonModal } from "@/components/CommonModal";
 import arrowPrev from "@/images/chev-left.svg";
 import arrowNext from "@/images/chev-right.svg";
 import calenderIcon from "@/images/calendar-btn.svg";
+import axios from "axios";
 
 const ReserveASlot = ({ room, page_name, data = {}, onOpenFaq, className = "", }) => {
   const {
@@ -26,7 +24,6 @@ const ReserveASlot = ({ room, page_name, data = {}, onOpenFaq, className = "", }
     thirdPartyGames,
     bookASlot,
   } = useGlobalContext();
-  console.log("sdkjfhksdjfhdjkshfksdjhfksjdf_snjkdfhksjdfsjdk", availableSlots,)
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState(null);
@@ -53,7 +50,6 @@ const ReserveASlot = ({ room, page_name, data = {}, onOpenFaq, className = "", }
   const [showMonthYear, setShowMonthYear] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [cartId, setCartId] = useState(null);
-  console.log("setCartId_setCartId", cartId)
   const [showIframe, setShowIframe] = useState(false);
 
   useEffect(() => {
@@ -73,14 +69,12 @@ const ReserveASlot = ({ room, page_name, data = {}, onOpenFaq, className = "", }
   }, []);
 
   useEffect(() => {
-    console.log("location", thirdPartyLocations);
   }, [thirdPartyLocations]);
 
   const handleLocationSelect = async (e) => {
     setSelectedLocation(e.value);
     setSelectedLocationOption(e);
     const games = await fetchThirdPartyGames(e.value);
-    console.log("games", games);
   };
 
   const handleGameSelect = (e) => {
@@ -107,7 +101,6 @@ const ReserveASlot = ({ room, page_name, data = {}, onOpenFaq, className = "", }
         // selectedEndDate
       );
       setSlotsLoading(false);
-      console.log("slots", slots);
     };
     fetchSlots();
   }, [selectedLocation, selectedGame, selectedStartDate]);
@@ -236,95 +229,6 @@ const ReserveASlot = ({ room, page_name, data = {}, onOpenFaq, className = "", }
     setSelectedSlotTime(slot);
   };
 
-  // const handleBookNow = async () => {
-  //   if (bookingLoading) return;
-
-  //   setBookingLoading(true);
-
-  //   // Trim values
-  //   const trimmedFirstName = firstName?.trim();
-  //   const trimmedLastName = lastName?.trim();
-  //   const trimmedEmail = email?.trim();
-  //   const trimmedPhone = phone?.trim();
-
-  //   // ================= REQUIRED FIELD CHECK =================
-  //   // if (
-  //   //   !trimmedFirstName ||
-  //   //   !trimmedLastName ||
-  //   //   !trimmedEmail ||
-  //   //   !trimmedPhone ||
-  //   //   !selectedLocation ||
-  //   //   !selectedSlotTime ||
-  //   //   !selectedDate
-  //   // ) {
-  //   //   toast.error("Please fill all the required fields");
-  //   //   setBookingLoading(false);
-  //   //   return;
-  //   // }
-
-  //   // ================= EMAIL VALIDATION =================
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   if (!emailRegex.test(trimmedEmail)) {
-  //     // toast.error("Please enter a valid email address");
-  //     setBookingLoading(false);
-  //     return;
-  //   }
-
-  //   // ================= PHONE VALIDATION (10 digits) =================
-  //   const phoneRegex = /^[6-9]\d{9}$/; // Indian mobile format
-  //   if (!phoneRegex.test(trimmedPhone)) {
-  //     toast.error("Please enter a valid 10-digit phone number");
-  //     setBookingLoading(false);
-  //     return;
-  //   }
-
-  //   // ================= BOOKING DATA =================
-  //   const bookingData = {
-  //     customerFirstName: trimmedFirstName,
-  //     customerLastName: trimmedLastName,
-  //     customerEmail: trimmedEmail,
-  //     customerPhone: trimmedPhone,
-  //     slotId: selectedSlotTime?.slotId,
-  //     locationId: selectedLocation,
-  //     gameId: selectedGame?.[0],
-  //     // startDate: selectedDate,
-  //   };
-
-
-  //   try {
-  //     const response = await bookASlot(bookingData);
-
-  //     if (response?.bookingId) {
-  //       toast.success("Booking successful");
-
-  //       // ================= RESET FORM =================
-  //       setFirstName("");
-  //       setLastName("");
-  //       setEmail("");
-  //       setPhone("");
-
-  //       setSelectedLocation(null);
-  //       setSelectedLocationOption(null);
-  //       setSelectedGame([]);
-  //       setSelectedSlotTime(null);
-  //       setHasSlotsFetched(false);
-  //       setSelectedDate(null);
-
-  //       // window.open(
-  //       //   `https://book.breakout.in/embed?cartId=${response.bookingId}`,
-  //       //   "_blank"
-  //       // );
-  //       setCartId(response.bookingId);
-  //       setShowIframe(true);
-  //     } else {
-  //       toast.error("Booking failed. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     setBookingLoading(false);
-  //   }
-  // };
 
   const handleBookNow = async () => {
     if (bookingLoading) return;
@@ -453,28 +357,34 @@ const ReserveASlot = ({ room, page_name, data = {}, onOpenFaq, className = "", }
 
   const handleDateSelect = (day) => {
     const dateObj = new Date(year, month, day);
-
-    // Local date format: YYYY-MM-DD (without time)
     const formattedDate = `${dateObj.getFullYear()}-${String(
       dateObj.getMonth() + 1
     ).padStart(2, "0")}-${String(dateObj.getDate()).padStart(2, "0")}`;
-
     setSelectedDate(dateObj);
-    setSelectedStartDate(formattedDate); // 👈 save formatted string instead of Date object
-
-    // formik.setFieldValue("startDate", formattedDate); // 👈 send only YYYY-MM-DD
-
-    console.log("startDate:", formattedDate);
+    setSelectedStartDate(formattedDate);  
   };
 
   const isPastDate = (day) => {
     const checkDate = new Date(year, month, day);
     checkDate.setHours(0, 0, 0, 0);
-
     const todayDate = new Date();
     todayDate.setHours(0, 0, 0, 0);
-
     return checkDate < todayDate;
+  };
+
+  const handleIframeClose = async () => {
+    try {
+      const response = await axios.post("/api/release-seats", {
+        locationId: selectedLocation,
+        bookingId: cartId,
+      });
+  
+      console.log("Release API Response:", response.data);
+    } catch (error) {
+      console.error("Release API Error:", error);
+    } finally {
+      setShowIframe(false);
+    }
   };
 
   return (
@@ -646,239 +556,6 @@ const ReserveASlot = ({ room, page_name, data = {}, onOpenFaq, className = "", }
             >
               <span className="yellow-text" >T&C applied*</span>
             </button>
-            {/* <div className="form-field mt-5">
-              <div className="row">
-                <div className="col-lg-3 col-12">
-                  <div className="form-group">
-                    <label htmlFor="location" className="form-label">
-                      Choose a Location
-                    </label>
-                    <div className="input-group sel-group">
-                      <Image src={loc} alt="loc" />
-                      <Select
-                        className="basic-single"
-                        classNamePrefix="select"
-                        placeholder="Select an option"
-                        name="color"
-                        styles={{
-                          ...customStyles,
-                          control: (base, state) => ({
-                            ...customStyles.control(base, state),
-                            paddingLeft: "35px",
-                          }),
-                        }}
-                        onChange={(e) => {
-                          handleLocationSelect(e);
-                        }}
-                        options={
-                          thirdPartyLocations?.length > 0 && thirdPartyLocations
-                            ? thirdPartyLocations?.map((location) => ({
-                              value: location.locationId,
-                              label: location.locationName,
-                            }))
-                            : []
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-3 col-12">
-                  <div className="form-group">
-                    <label htmlFor="location" className="form-label">
-                      Choose a Game
-                    </label>
-                    <div className="input-group sel-group">
-                      <Select
-                        isMulti
-                        className="basic-single"
-                        classNamePrefix="select"
-                        placeholder="Select an option"
-                        name="color"
-                        styles={{
-                          ...customStyles,
-                          control: (base, state) => ({
-                            ...customStyles.control(base, state),
-                          }),
-                        }}
-                        onChange={(e) => {
-                          handleGameSelect(e);
-                        }}
-                        options={
-                          thirdPartyGames?.length > 0 && thirdPartyGames
-                            ? thirdPartyGames?.map((game) => ({
-                              value: game.gameId,
-                              label: game.gameName,
-                            }))
-                            : []
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-3 col-12">
-                  <div className="form-group">
-                    <label className="form-label">Start Date</label> <br />
-                    <DatePicker
-                      selected={selectedStartDate}
-                      onChange={(date) => {
-                        setSelectedStartDate(date);
-                      }}
-                      minDate={new Date()}
-                      maxDate={selectedEndDate || null}
-                      placeholderText="Select a date"
-                    />
-                  </div>
-                </div>
-                <div className="col-lg-3 col-12">
-                  <div className="form-group">
-                    <label className="form-label">End Date</label> <br />
-                    <DatePicker
-                      selected={selectedEndDate}
-                      onChange={(date) => {
-                        setSelectedEndDate(date);
-                      }}
-                      minDate={selectedStartDate || new Date()}
-                      placeholderText="Select a End Date"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-12 mb-4 mt-3">
-                  <div className="calendar-wrapper">
-                    <div className="calendar-header">
-                      <div
-                        className="month-year-select mb-3"
-                      >
-                        <span>
-                          {new Date(year, month).toLocaleString("default", { month: "long" })} {year}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="calendar-days-outer">
-                      <div className="calendar-days">
-                        <div className="arrow" onClick={prevDays} disabled={startIndex === 0}>
-                          <Image src={arrowPrev} alt="Previous" />
-                        </div>
-
-                        {visibleDays.map((day) => {
-                          const past = isPastDate(day);
-
-                          return (
-                            <div
-                              key={day}
-                              onClick={() => {
-                                if (!past) handleDateSelect(day);
-                              }}
-                              className={`day ${past ? "disabled" : ""} ${selectedDate &&
-                                selectedDate.getDate() === day &&
-                                selectedDate.getMonth() === month &&
-                                selectedDate.getFullYear() === year
-                                ? "active"
-                                : ""
-                                }`}
-                            >
-                              {day}
-                            </div>
-                          );
-                        })}
-
-
-                        <div
-                          className={`arrow ${startIndex + 7 >= days.length ? "disabled" : ""} `}
-                          onClick={nextDays}
-                          disabled={startIndex + 7 >= days.length}
-                        >
-                          <Image src={arrowNext} alt="Next" />
-                        </div>
-                        <div
-                          className="calender-btn"
-                          onClick={() => setShowMonthYear(!showMonthYear)}
-                        >
-                          <Image src={calenderIcon} alt="Calender Icon" />
-                        </div>
-                      </div>
-
-                      {showMonthYear && (
-                        <div className="month-year-dropdown">
-                          <div className="months">
-                            {Array.from({ length: 12 }).map((_, i) => (
-                              <div
-                                key={i}
-                                className={`option ${month === i ? "active" : ""}`}
-                                onClick={() => {
-                                  setMonth(i);
-                                  setShowMonthYear(false);
-                                }}
-                              >
-                                {new Date(0, i).toLocaleString("default", { month: "long" })}
-                              </div>
-                            ))}
-                          </div>
-
-                          <div className="years">
-                            {[2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033].map((y) => (
-                              <div
-                                key={y}
-                                className={`option ${year === y ? "active" : ""}`}
-                                onClick={() => {
-                                  setYear(y);
-                                  setShowMonthYear(false);
-                                }}
-                              >
-                                {y}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-lg-12 col-12">
-                  <div className="">
-                    {slotsLoading ? (
-                      <div className="text-center">
-                        <div className="spinner-border" role="status">
-                          <span className="visually-hidden">Loading...</span>
-                        </div>
-                      </div>
-                    ) : availableSlots?.length > 0 && availableSlots ? (
-                      <SlotPicker
-                        handleSelect={handleSlotSelect}
-                        selectedSlotTime={selectedSlotTime}
-                        availableSlots={availableSlots}
-                      />
-                    ) : !hasSlotsFetched ? (
-                      <div className="text-center py-5">
-                        <p>
-                          Please select a location, game, start date and end
-                          date
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="text-center py-5">
-                        <p>No slots available</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-               
-                <div className="col-12">
-                  <button
-                    className="main-btn mt-4 sm"
-                    onClick={handleBookNow}
-                    disabled={bookingLoading}
-                  >
-                    <span className="">
-                      {bookingLoading ? "Booking..." : "Book Now"}
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div> */}
             <form onSubmit={(e) => {
               e.preventDefault();
               handleBookNow();
@@ -1161,7 +838,10 @@ const ReserveASlot = ({ room, page_name, data = {}, onOpenFaq, className = "", }
           </div>
         </div>
       </div>
-      <CommonModal show={showIframe} handleClose={() => setShowIframe(false)} onReleaseSeats={true}>
+      <CommonModal show={showIframe} 
+      // handleClose={() => setShowIframe(false)}
+      handleClose={handleIframeClose}
+       onReleaseSeats={true}>
         <div style={{ width: "100%", height: "75vh" }}>
           {/* {cartId && ( */}
           <iframe

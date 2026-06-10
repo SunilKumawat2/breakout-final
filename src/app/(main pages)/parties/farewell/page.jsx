@@ -2,73 +2,24 @@
 import React, { useEffect, useState, useRef } from "react";
 import InnerPageBanner from "@/components/InnerPageBanner";
 import Image from "next/image";
-import enc from "@/images/enc.svg";
-import mBox from "@/images/m-box.png";
 import HmTextSec from "@/components/home/HmTextSec";
-import icon1 from "@/images/icon1.svg";
-import icon2 from "@/images/icon2.svg";
-import icon3 from "@/images/icon3.svg";
-import icon4 from "@/images/icon4.svg";
-import illus3 from "@/images/illus3.svg";
-import hmIllus from "@/images/bottom-illus.svg";
 import LogoSec from "@/components/LogoSec";
-import EscapeRoomCard from "@/components/EscapeRoomCard";
-import CounterBox from "@/components/CounterBox";
-import VisitLocations from "@/components/VisitLocations";
-import PeakExpSec from "@/components/PeakExpSec";
 import BlogSlider from "@/components/BlogSlider";
-import HomeContact from "@/components/home/HomeContact";
-import locIcon from "@/images/loc-icon.svg";
-import ReserveASlot from "@/components/ReserveASlot";
-import fdImg1 from "@/images/fd-img1.png";
 import Link from "next/link";
-import wh from "@/images/wh.svg";
-import locPlace from "@/images/loc-place.svg";
-import BirthdayBanner from "@/components/BirthdayBanner";
 import bdayIllus from "@/images/bday-illus.svg";
 import PartyGetInTouch from "@/components/PartyGetInTouch";
-
-import whicon from "@/images/wh-icon.svg";
-import phicon from "@/images/phone.svg";
-import mailicon from "@/images/mail-icon.svg";
-
-import bdayImg1 from "@/images/kid1.jpg";
-import bdayImg2 from "@/images/kid2.jpg";
-import bdayImg3 from "@/images/kid3.jpg";
-import bdayImg4 from "@/images/kid4.jpg";
-import bdayImg5 from "@/images/kid5.jpg";
-import bdayImg6 from "@/images/kid6.jpg";
-import bdayImg7 from "@/images/kid7.jpg";
-import partyillus from "@/images/party-illus.svg";
-import BirthdayGetInTouch from "@/components/BirthdayGetInTouch";
-import PartySlider from "@/components/PartySlider";
 import ReadyToGoPlans from "@/components/ReadyToGoPlans";
 import Videotestimonials from "@/components/Videotestimonials";
 import FaqSection from "@/components/FaqSection";
-
 import nightIllus from "@/images/night-illus.svg";
-
-import bdayBanner from "@/images/kid-banner.jpg";
-
-import theme1 from "@/images/theme1.jpg";
-import theme2 from "@/images/theme2.jpg";
-import theme3 from "@/images/theme3.jpg";
-import theme4 from "@/images/theme4.jpg";
-
 import Packages from "@/components/Packages";
-
 import PartyExpertCon from "@/components/PartyExpertCon";
-
-import movieIllus from "@/images/movie-illus.svg";
 import OurLocationSec from "@/components/OurLocationSec";
-import coupleIllus from "@/images/couple-illus.svg";
 import loveIllus from "@/images/love-illus.svg";
-import { useParams } from "next/navigation";
 import api from "@/helpers/api";
 import TrustedSection from "@/components/TrustedSection";
 import GReviewSlider from "@/components/GReviewSlider";
 import PhotographicStyledImage from "@/components/PhotographicStyledImage";
-import bachelorIllus from "@/images/bachelor-illus.png";
 import farewellIllus from "@/images/farewell_illus.png";
 import WordByWordAnimation from "@/helpers/WordByWordAnimation";
 import { useGlobalContext } from "@/context/GlobalContext";
@@ -329,7 +280,7 @@ const page = () => {
         <Image src={bdayIllus} alt="illus3" className="illus-image" />
       </div>
       <div className="black-gr-div">
-        <PartyExpertCon className="sec-padding-top" data="party_farewell" />
+        <PartyExpertCon className="sec-padding-top" data="birthday" />
         {party && party?.slidersection && (
           <ReadyToGoPlans data={party?.slidersection} />
         )}

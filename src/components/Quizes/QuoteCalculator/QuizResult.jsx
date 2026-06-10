@@ -5,7 +5,7 @@ import check from "@/images/check.svg";
 import Link from "next/link";
 import PartyExpertCon from "@/components/PartyExpertCon";
 
-const Packages = ({ packages, category, capacity }) => {
+const Packages = ({ packages, category, capacity, content }) => {
 
   const handlerefresh = () => {
     window.location.reload();
@@ -24,7 +24,7 @@ const Packages = ({ packages, category, capacity }) => {
   const sortedPackages = [...(packages || [])].sort((a, b) => {
     const priceA = Number(a?.offerAmount || a?.totalAmount || 0);
     const priceB = Number(b?.offerAmount || b?.totalAmount || 0);
-  
+
     return priceB - priceA; // Highest to Lowest
   });
 
@@ -142,27 +142,32 @@ const Packages = ({ packages, category, capacity }) => {
                     ))}
                   </div>
                   {
-                    category == '"birthday"?content=corporate-package' && (
-                      <h5 className="mt-3">Prices are indicative and including GST. T&C apply.</h5>
+                    (
+                      content == "corporate-package" ||
+                      category == '"birthday"?content=corporate-package'
+                    ) && (
+                      <h5 className="mt-3">
+                        Prices are indicative and including GST. T&C apply.
+                      </h5>
                     )
                   }
-                  {
-                    category == '"birthday"?content=birthday-party' && (
+                  {(content == 'birthday-party' || category == '"birthday"?content=birthday-party')
+                    && (
                       <h5 className="mt-3">Celebrate with an exclusive private party experience — just for you and your guests. Prices are indicative. GST extra. T&C apply.</h5>
                     )
                   }
-                  {
-                    category == '"birthday"?content=bachelor-package' && (
+                  {(content == 'bachelor-package' || category=='"birthday"?content=bachelor-package')
+                     && (
                       <h5 className="mt-3">Celebrate with an exclusive private party experience — just for you and your guests. Prices are indicative. GST extra. T&C apply.</h5>
                     )
                   }
-                  {
-                    category == '"birthday"?content=farewell-package' && (
+                  {(content == 'farewell-package' || category=='"birthday"?content=farewell-package')
+                     && (
                       <h5 className="mt-3">Celebrate with an exclusive private party experience — just for you and your guests. Prices are indicative. GST extra. T&C apply.</h5>
                     )
                   }
-                  {
-                    category == '"birthday"?content=couple-package' && (
+                  {(content == 'couple-package' || category=='"birthday"?content=couple-package')
+                     && (
                       <h5 className="mt-3">An exclusive private experience for couples — no other participants will be grouped with you. Indicative pricing. GST extra. T&C apply.</h5>
                     )
                   }

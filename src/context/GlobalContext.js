@@ -468,21 +468,26 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  const releaseSeats = async (bookingData) => {
-    try {
-      const response = await axios.post(`/api/releaseSeats`, bookingData);
-      return response.data;
-    } catch (error) {
-      console.log("error", error);
-      toast.error(
-        error?.response?.data?.error || error?.message || "Something went wrong"
-      );
-      throw error;
-    }
-  };
-
-
-
+  // const releaseSeats = async () => {
+  //   try {
+  //     if (!bookingId || !locationId) return;
+  
+  //     const response = await axios.post(
+  //       "/api/release-seats",
+  //       {
+  //         locationId,
+  //         bookingId,
+  //       }
+  //     );
+  
+  //     console.log("Release Seats Response:", response.data);
+  
+  //     // Optional: clear booking id after release
+  //     sessionStorage.removeItem("bookingId");
+  //   } catch (error) {
+  //     console.error("Release Seats Error:", error);
+  //   }
+  // };
 
   const quizresposesubmit = async (bookingData) => {
     try {
@@ -716,7 +721,7 @@ export const GlobalProvider = ({ children }) => {
     updateQuoteCalculatorValue,
     updateCostCalculatorValue,
     bookASlot,
-    releaseSeats,
+    // releaseSeats,
     fetchSiteSettings,
     // Loading states
     loading,

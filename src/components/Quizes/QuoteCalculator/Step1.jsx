@@ -659,7 +659,7 @@ import calenderIcon from "@/images/calendar-btn.svg";
 import Image from "next/image";
 import api from "@/helpers/api";
 
-const Step1 = ({ goToResult, setParticipants, selectedDate, setSelectedDate, content }) => {
+const Step1 = ({ goToResult, setParticipants, selectedDate, setSelectedDate, content,resourceName,resourceType }) => {
   const { updateQuoteCalculatorValue, quoteCalculatorValues, quotecalculatorquiz } =
     useGlobalContext();
 
@@ -677,7 +677,7 @@ const Step1 = ({ goToResult, setParticipants, selectedDate, setSelectedDate, con
   const range = question?.range || {}; // SAFE FIX
 
   const totalSteps = 2;
-
+console.log("content_step1",content)
   const [checkboxValues, setCheckboxValues] = useState([]);
   const [rangeValue, setRangeValue] = useState(range?.min ?? 0); // SAFE FIX
 

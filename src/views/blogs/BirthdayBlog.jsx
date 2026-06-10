@@ -57,6 +57,14 @@ const BirthdayBlog = ({ blogData, id = "" }) => {
       "bachelor(ette)",
       "couples",
       "birthday",
+      "Birthdays",
+      "Bachelor(ette)",
+      "Couples",
+      "Corporate",
+      "Escape Rooms",
+      "Farewells",
+      "Parties",
+      "Things to do"
     ].includes(relatedToFirst)
   ) {
     pageType = "birthday";
@@ -247,7 +255,29 @@ const BirthdayBlog = ({ blogData, id = "" }) => {
             </div>
           </div>
         )}
-        <PartyExpertCon className="pt-80" data="blog_birthday_blog" />
+      
+      <PartyExpertCon
+        className="pt-80"
+        data={
+          pageType == "Corporate"
+            ? "corporate"
+            : [
+              "parties",
+              "birthdays",
+              "farewells",
+              "bachelor(ette)",
+              "couples",
+              "birthday",
+              "Birthdays",
+              "Bachelor(ette)",
+              "Couples",
+              "Farewells",
+              "Parties",
+            ].includes(relatedToFirst)
+              ? "birthday"
+              : null
+        }
+      />
 
         {blogData && (
           <FullSliderSec
@@ -381,7 +411,7 @@ const BirthdayBlog = ({ blogData, id = "" }) => {
         <Image src={bdayblogIllus} className="illus-image" alt="hm-illus" loading="lazy" />
       </div>
       <div className="black-gr-div">
-        {blogData?.faqs.length > 0 && (
+        {blogData?.faqs?.length > 0 && (
           <FaqSection
             className="sec-padding-top pb-0"
             data={blogData?.faqs}
@@ -396,8 +426,8 @@ const BirthdayBlog = ({ blogData, id = "" }) => {
           privacyLine={true}
           page_type={pageType}
         /> */}
-        <HomeContact page_type={pageType}
-          noImage={true} />
+        <HomeContact className={`${blogData?.faqs?.length > 0 ? "" :"sec-padding-top"}`} page_type={pageType}
+          noImage={true} noTextBottom={false}/>
         {MoreBlogs?.length > 0 && (
           <section className={`blog-slider-sec section-padding pb-0 arrows-diff`}>
             <div className="container">

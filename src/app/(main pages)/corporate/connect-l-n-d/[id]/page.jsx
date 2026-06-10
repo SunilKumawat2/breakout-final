@@ -263,6 +263,7 @@ const page = () => {
           noTextTop={true}
           privacyLine={true}
           noImage={true}
+           page_type="corporate_L_N_D"
         />
         </div>
         {room?.keyresourcessection && (
